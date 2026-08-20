@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>SYSTEM ALERT</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --green: #00ff66;
+  --red: #ff174f;
+  --cyan: #00eaff;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      #061208 0%,
+      #010201 55%,
+      #000 100%
+    );
+
+  color: var(--green);
+  font-family: 'Share Tech Mono', monospace;
+
+  transition:
+    background .5s ease,
+    color .5s ease;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      rgba(0,255,102,.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0,255,102,.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 42px 42px;
+
+  animation:
+    gridMove 5s linear infinite;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  z-index: 999;
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.025) 0px,
+      rgba(255,255,255,.025) 1px,
+      transparent 2px,
+      transparent 5px
+    );
+
+  opacity: .35;
+  mix-blend-mode: overlay;
+}
+
+@keyframes gridMove {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 42px;
+  }
+}
+
+
+/* =========================
+   MAIN TERMINAL
+========================= */
+
+.container {
+  position: fixed;
+
+  z-index: 5;
+
+  width: min(92%, 520px);
+
+  left: 50%;
+  top: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  border:
+    1px solid rgba(0,255,102,.65);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(0,25,10,.97),
+      rgba(0,5,2,.98)
+    );
+
+  box-shadow:
+    0 0 0 1px rgba(0,255,102,.08),
+    0 0 25px rgba(0,255,102,.16),
+    0 0 80px rgba(0,255,102,.08);
+
+  overflow: hidden;
+
+  transition:
+    opacity .7s ease,
+    transform .7s ease;
+}
+
+.container::before {
+  content:
+    "●  SYSTEM // SECURITY TERMINAL";
+
+  display: block;
+
+  padding: 9px 13px;
+
+  color:
+    rgba(0,255,102,.75);
+
+  background:
+    rgba(0,255,102,.055);
+
+  border-bottom:
+    1px solid rgba(0,255,102,.25);
+
+  font-size: 10px;
+
+  letter-spacing: 1.5px;
+}
+
+.container::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -100%;
+
+  width: 100%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #00ff66,
+      transparent
+    );
+
+  animation:
+    scanLine 3s linear infinite;
+}
+
+@keyframes scanLine {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+.terminal-content {
+  padding: 24px 20px 22px;
+}
+
+h1 {
+  position: relative;
+
+  text-align: center;
+
+  font-size:
+    clamp(18px, 5vw, 27px);
+
+  line-height: 1.25;
+
+  color: var(--green);
+
+  letter-spacing: 1px;
+
+  text-shadow:
+    0 0 5px rgba(0,255,102,.6),
+    0 0 20px rgba(0,255,102,.25);
+
+  animation:
+    titleGlitch 2.5s infinite;
+}
+
+.subtitle {
+  text-align: center;
+
+  margin-top: 7px;
+
+  color:
+    rgba(255,255,255,.35);
+
+  font-size: 9px;
+
+  letter-spacing: 3px;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+
+  margin: 18px 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(0,255,102,.5),
+      transparent
+    );
+}
+
+.bypass {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: var(--red);
+
+  font-size:
+    clamp(13px, 3.5vw, 17px);
+
+  text-shadow:
+    0 0 8px rgba(255,23,79,.5);
+
+  animation:
+    flicker 1.2s infinite;
+}
+
+.bypass::before {
+  content: ">";
+
+  color: var(--red);
+}
+
+.status {
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items: center;
+
+  margin-top: 14px;
+
+  font-size: 9px;
+
+  letter-spacing: 1px;
+
+  color:
+    rgba(255,255,255,.4);
+}
+
+.status span:last-child {
+  color: var(--green);
+}
+
+.status-dot {
+  display: inline-block;
+
+  width: 6px;
+  height: 6px;
+
+  margin-right: 5px;
+
+  border-radius: 50%;
+
+  background: var(--green);
+
+  box-shadow:
+    0 0 7px var(--green);
+
+  animation:
+    blink 1s infinite;
+}
+
+.terminal {
+  margin-top: 18px;
+
+  min-height: 115px;
+
+  padding: 13px;
+
+  background:
+    rgba(0,0,0,.42);
+
+  border-left:
+    2px solid rgba(0,255,102,.45);
+
+  box-shadow:
+    inset 0 0 20px rgba(0,0,0,.4);
+
+  font-size:
+    clamp(11px, 2.8vw, 14px);
+
+  line-height: 1.9;
+
+  color:
+    rgba(0,255,102,.85);
+}
+
+.terminal p {
+  animation:
+    terminalAppear .3s ease;
+}
+
+.cursor {
+  display: inline-block;
+
+  width: 7px;
+  height: 13px;
+
+  margin-left: 3px;
+
+  vertical-align: middle;
+
+  background: var(--green);
+
+  box-shadow:
+    0 0 8px var(--green);
+
+  animation:
+    blink .8s step-start infinite;
+}
+  
+  @keyframes terminalAppear {
+  from {
+    opacity: 0;
+    transform:
+      translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateX(0);
+  }
+}
+
+
+/* =========================
+   ERROR SCREEN
+========================= */
+
+.error-screen {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 10;
+
+  background: #000;
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  overflow: hidden;
+
+  transition:
+    opacity .5s ease,
+    visibility .5s ease;
+}
+
+.error-screen.active {
+  opacity: 1;
+
+  visibility: visible;
+}
+
+.error-text {
+  position: fixed;
+
+  color: #ff174f;
+
+  font-weight: 900;
+
+  white-space: nowrap;
+
+  pointer-events: none;
+
+  user-select: none;
+
+  text-shadow:
+    3px 0 #00eaff,
+    -3px 0 #ff174f,
+    0 0 12px rgba(255,23,79,.7);
+
+  animation:
+    glitch .09s infinite,
+    errorAppear .15s ease-out;
+
+  transform-origin: center;
+}
+
+@keyframes errorAppear {
+  from {
+    opacity: 0;
+
+    transform:
+      scale(.4);
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes glitch {
+  0% {
+    filter:
+      hue-rotate(0deg);
+  }
+
+  25% {
+    margin-left: 2px;
+
+    clip-path:
+      inset(10% 0 65% 0);
+  }
+
+  50% {
+    margin-left: -2px;
+
+    clip-path:
+      inset(60% 0 10% 0);
+  }
+
+  75% {
+    margin-left: 1px;
+
+    clip-path:
+      inset(30% 0 35% 0);
+  }
+
+  100% {
+    margin-left: 0;
+
+    clip-path: none;
+  }
+}
+
+
+/* =========================
+   BLOCKED
+========================= */
+
+.ip-blocked {
+  position: fixed;
+
+  z-index: 30;
+
+  left: 50%;
+  top: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  width: 90%;
+
+  text-align: center;
+
+  color: #ff174f;
+
+  font-size:
+    clamp(20px, 6vw, 38px);
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  text-shadow:
+    0 0 8px #ff174f,
+    0 0 25px rgba(255,23,79,.6);
+
+  opacity: 0;
+
+  display: none;
+}
+
+.ip-blocked.show {
+  display: block;
+
+  animation:
+    blockedIn .6s ease forwards;
+}
+
+@keyframes blockedIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(.8);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+}
+
+
+/* =========================
+   FINAL SCREEN
+========================= */
+
+.final-screen {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 40;
+
+  display: flex;
+
+  justify-content:
+    center;
+
+  align-items:
+    center;
+
+  flex-direction: column;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle,
+      #080808,
+      #000 70%
+    );
+
+  transition:
+    opacity .8s ease;
+}
+
+.final-screen.show {
+  opacity: 1;
+
+  pointer-events: all;
+}
+
+.final-screen::before {
+  content:
+    "SYSTEM COMPLETE";
+
+  position: absolute;
+
+  top: 30px;
+
+  font-size: 9px;
+
+  color:
+    rgba(255,255,255,.25);
+
+  letter-spacing: 5px;
+}
+
+.haki-pli {
+  font-size:
+    clamp(30px, 10vw, 58px);
+
+  font-weight: 900;
+
+  color: var(--red);
+
+  letter-spacing: 4px;
+
+  text-shadow:
+    0 0 10px var(--red),
+    0 0 35px rgba(255,23,79,.45);
+
+  animation:
+    titleGlitch 1.5s infinite,
+    pulse 2s infinite;
+}
+
+.final-subtitle {
+  margin-top: 8px;
+
+  color:
+    rgba(255,255,255,.35);
+
+  font-size: 9px;
+
+  letter-spacing: 4px;
+}
+
+.mode-btn {
+  margin-top: 30px;
+
+  padding: 13px 30px;
+
+  border:
+    1px solid var(--red);
+
+  background:
+    linear-gradient(
+      180deg,
+      #ff174f,
+      #d9003d
+    );
+
+  color: #000;
+
+  font-family: inherit;
+
+  font-size: 15px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 0 20px rgba(255,23,79,.35);
+
+  transition:
+    transform .15s ease,
+    box-shadow .15s ease;
+}
+
+.mode-btn:hover {
+  box-shadow:
+    0 0 35px rgba(255,23,79,.65);
+}
+
+.mode-btn:active {
+  transform:
+    scale(.93);
+}
+
+
+/* =========================
+   FINAL IMAGE
+========================= */
+
+.final-image {
+  position: fixed;
+
+  left: 50%;
+  top: 50%;
+
+  width:
+    min(90vw, 500px);
+
+  max-height: 85vh;
+
+  object-fit: contain;
+
+  transform:
+    translate(-50%, -50%)
+    scale(.45);
+
+  opacity: 0;
+
+  z-index: 9999;
+
+  border:
+    3px solid #000;
+
+  box-shadow:
+    0 0 30px rgba(0,0,0,.8),
+    0 0 80px rgba(0,0,0,.5);
+
+  transition:
+    opacity .45s ease,
+    transform .45s
+      cubic-bezier(.2,.8,.2,1);
+
+  filter:
+    contrast(1.15)
+    saturate(1.1);
+}
+
+.final-image.show {
+  opacity: 1;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1);
+}
+
+
+/* =========================
+   MODES
+========================= */
+
+body.white-mode {
+  background: #fff;
+
+  color: #000;
+}
+
+body.white-mode::before,
+body.white-mode::after {
+  opacity: 0;
+}
+
+body.white-mode .error-screen {
+  background: #fff;
+}
+
+body.white-mode .error-text {
+  color: #000;
+
+  text-shadow:
+    3px 0 #aaa,
+    -3px 0 #777;
+}
+
+
+/* =========================
+   RED FINAL
+========================= */
+
+body.red-mode {
+  background: #f00000;
+}
+
+body.red-mode::before,
+body.red-mode::after {
+  opacity: 0;
+}
+
+body.red-mode .error-screen {
+  background:
+    radial-gradient(
+      circle,
+      #ff1a1a 0%,
+      #e00000 45%,
+      #a90000 100%
+    );
+}
+
+body.red-mode .error-text {
+  color: #fff;
+
+  font-weight: 900;
+
+  text-shadow:
+    6px 0 #000,
+    -6px 0 #000,
+    0 0 30px rgba(0,0,0,.5);
+
+  animation:
+    redGlitch .05s infinite;
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes redGlitch {
+  0% {
+    transform:
+      translate(-50%, -50%)
+      skew(0deg);
+  }
+
+  20% {
+    transform:
+      translate(-53%, -48%)
+      skew(8deg);
+  }
+
+  40% {
+    transform:
+      translate(-47%, -52%)
+      skew(-8deg);
+  }
+
+  60% {
+    transform:
+      translate(-52%, -50%)
+      skew(5deg);
+  }
+
+  80% {
+    transform:
+      translate(-48%, -51%)
+      skew(-5deg);
+  }
+
+  100% {
+    transform:
+      translate(-50%, -50%)
+      skew(0deg);
+  }
+}
+
+@keyframes titleGlitch {
+  0%, 90%, 100% {
+    transform:
+      translate(0);
+  }
+
+  92% {
+    transform:
+      translate(2px, -1px);
+  }
+
+  94% {
+    transform:
+      translate(-2px, 1px);
+  }
+
+  96% {
+    transform:
+      translate(1px, 0);
+  }
+}
+
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  45% {
+    opacity: .8;
+  }
+
+  50% {
+    opacity: .25;
+  }
+
+  55% {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform:
+      scale(1);
+  }
+
+  50% {
+    transform:
+      scale(1.03);
+  }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+
+  .container {
+    width: 92%;
+  }
+
+  .terminal-content {
+    padding:
+      20px 15px;
+  }
+
+  .terminal {
+    min-height: 110px;
+
+    padding: 10px;
+  }
+
+  .status {
+    font-size: 8px;
+  }
+
+  .error-text {
+    text-shadow:
+      2px 0 #00eaff,
+      -2px 0 #ff174f;
+  }
+
+  .mode-btn {
+    padding:
+      12px 25px;
+  }
+
+  .final-image {
+    width: 88vw;
+    max-height: 80vh;
+  }
+}
+
+#executeIntro{position:fixed;inset:0;z-index:10000;display:flex;justify-content:center;align-items:center;background:#000;font-family:'Share Tech Mono',monospace;overflow:hidden;transition:opacity .5s ease,visibility .5s ease}#executeIntro::before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(0,255,102,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,102,.04) 1px,transparent 1px);background-size:50px 50px;animation:introGridScan 5s linear infinite}@keyframes introGridScan{from{background-position:0 0}to{background-position:0 50px}}#executeIntro.hidden{opacity:0;visibility:hidden;pointer-events:none}.glitch-btn{padding:18px 50px;font-size:20px;background:#000;color:#00ff66;border:2px solid #00ff66;cursor:pointer;font-weight:900;text-transform:uppercase;letter-spacing:3px;position:relative;overflow:hidden;box-shadow:0 0 25px rgba(0,255,102,.3);transition:all .3s;z-index:1}.glitch-btn:hover{background:#00ff66;color:#000;box-shadow:0 0 50px rgba(0,255,102,.8)}.glitch-btn::before{content:'> EXECUTE BYPASS';position:absolute;inset:0;background:#000;color:#ff0044;display:flex;justify-content:center;align-items:center;animation:glitch-anim 2s infinite linear alternate-reverse}.glitch-btn::after{content:'> EXECUTE BYPASS';position:absolute;inset:0;background:#000;color:#00ffff;display:flex;justify-content:center;align-items:center;animation:glitch-anim2 2.5s infinite linear alternate-reverse}@keyframes glitch-anim{0%{clip-path:inset(45% 0 35% 0);transform:translate(3px,-2px)}20%{clip-path:inset(10% 0 80% 0);transform:translate(-2px,2px)}40%{clip-path:inset(60% 0 20% 0);transform:translate(1px,1px)}60%{clip-path:inset(30% 0 50% 0);transform:translate(-1px,-1px)}80%{clip-path:inset(70% 0 10% 0);transform:translate(2px,0)}100%{clip-path:inset(20% 0 60% 0);transform:translate(0)}}@keyframes glitch-anim2{0%{clip-path:inset(20% 0 60% 0);transform:translate(-2px,0)}20%{clip-path:inset(70% 0 10% 0);transform:translate(2px,0)}40%{clip-path:inset(30% 0 50% 0);transform:translate(-1px,0)}60%{clip-path:inset(60% 0 20% 0);transform:translate(1px,0)}80%{clip-path:inset(10% 0 80% 0);transform:translate(-2px,0)}100%{clip-path:inset(45% 0 35% 0);transform:translate(0)}}#executeIntro .warning{position:absolute;bottom:10%;font-size:12px;color:#ff0044;animation:introFlicker 1.5s infinite;text-align:center;z-index:1}@keyframes introFlicker{50%{opacity:.2}}
+</style>
+</head>
+
+<body>
+<div id="executeIntro"><button class="glitch-btn" id="executeBtn">&gt; EXECUTE BYPASS</button><div class="warning">WARNING: This action cannot be undone</div></div>
+
+<div class="container" id="mainScreen">
+
+  <div class="terminal-content">
+
+    <h1>
+      Your Account Has Been Restricted
+    </h1>
+
+    <div class="subtitle">
+      SECURITY PROTOCOL // 0x403
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="bypass">
+      bypass_protocol.exe
+    </div>
+
+    <div class="status">
+
+      <span>
+        <i class="status-dot"></i>
+        SYSTEM STATUS
+      </span>
+
+      <span>ACTIVE</span>
+
+    </div>
+
+    <div
+      class="terminal"
+      id="terminal">
+    </div>
+
+  </div>
+
+</div>
+
+<div
+  class="error-screen"
+  id="errorScreen">
+</div>
+
+<div
+  class="ip-blocked"
+  id="ipBlocked">
+</div>
+
+<div
+  class="final-screen"
+  id="finalScreen">
+
+  <div class="haki-pli">
+    FINAL WARNING
+  </div>
+
+  <div class="final-subtitle">
+    SYSTEM PROTOCOL COMPLETE
+  </div>
+
+  <button
+    class="mode-btn"
+    onclick="activateIdiotMode()">
+
+    [ Activate? ]
+
+  </button>
+
+</div>
+
+<script>
+  
+  const AudioContext =
+  window.AudioContext ||
+  window.webkitAudioContext;
+
+const audioCtx =
+  new AudioContext();
+
+let alarmOsc = null;
+let idiotAlarm = null;
+let soundEnabled = true;
+
+
+/* =========================
+   BEEP
+========================= */
+
+function playBeep(
+  freq = 800,
+  duration = 0.08
+) {
+
+  if (!soundEnabled) return;
+
+  try {
+
+    const osc =
+      audioCtx.createOscillator();
+
+    const gain =
+      audioCtx.createGain();
+
+    osc.type = 'square';
+
+    osc.frequency.value =
+      freq;
+
+    gain.gain.value =
+      0.06;
+
+    osc.connect(gain);
+
+    gain.connect(
+      audioCtx.destination
+    );
+
+    osc.start();
+
+    osc.stop(
+      audioCtx.currentTime +
+      duration
+    );
+
+  } catch (e) {}
+}
+
+
+/* =========================
+   ALARM
+========================= */
+
+function startAlarm() {
+
+  if (alarmOsc) return;
+
+  alarmOsc =
+    audioCtx.createOscillator();
+
+  const gain =
+    audioCtx.createGain();
+
+  alarmOsc.type =
+    'sawtooth';
+
+  gain.gain.value =
+    0.18;
+
+  alarmOsc.connect(gain);
+
+  gain.connect(
+    audioCtx.destination
+  );
+
+  let freq = 400;
+
+  alarmOsc.frequency.value =
+    freq;
+
+  alarmOsc.start();
+
+  alarmOsc.interval =
+    setInterval(() => {
+
+      if (!alarmOsc) return;
+
+      freq =
+        freq === 400
+          ? 900
+          : 400;
+
+      alarmOsc.frequency
+        .setValueAtTime(
+          freq,
+          audioCtx.currentTime
+        );
+
+    }, 200);
+}
+
+
+/* =========================
+   IDIOT ALARM
+========================= */
+
+function startIdiotAlarm() {
+
+  if (idiotAlarm) return;
+
+  idiotAlarm =
+    audioCtx.createOscillator();
+
+  const gain =
+    audioCtx.createGain();
+
+  idiotAlarm.type =
+    'square';
+
+  gain.gain.value =
+    0.18;
+
+  idiotAlarm.connect(gain);
+
+  gain.connect(
+    audioCtx.destination
+  );
+
+  let freq = 600;
+
+  idiotAlarm.frequency.value =
+    freq;
+
+  idiotAlarm.start();
+
+  idiotAlarm.interval =
+    setInterval(() => {
+
+      if (!idiotAlarm) return;
+
+      freq =
+        freq === 600
+          ? 1200
+          : 600;
+
+      idiotAlarm.frequency
+        .setValueAtTime(
+          freq,
+          audioCtx.currentTime
+        );
+
+    }, 120);
+}
+
+
+/* =========================
+   STOP AUDIO
+========================= */
+
+function stopAllAlarm() {
+
+  if (alarmOsc) {
+
+    clearInterval(
+      alarmOsc.interval
+    );
+
+    try {
+      alarmOsc.stop();
+    } catch (e) {}
+
+    alarmOsc.disconnect();
+
+    alarmOsc = null;
+  }
+
+  if (idiotAlarm) {
+
+    clearInterval(
+      idiotAlarm.interval
+    );
+
+    try {
+      idiotAlarm.stop();
+    } catch (e) {}
+
+    idiotAlarm.disconnect();
+
+    idiotAlarm = null;
+  }
+}
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const terminal =
+  document.getElementById(
+    'terminal'
+  );
+
+const mainScreen =
+  document.getElementById(
+    'mainScreen'
+  );
+
+const errorScreen =
+  document.getElementById(
+    'errorScreen'
+  );
+
+const ipBlocked =
+  document.getElementById(
+    'ipBlocked'
+  );
+
+const finalScreen =
+  document.getElementById(
+    'finalScreen'
+  );
+
+const executeIntro = document.getElementById('executeIntro');
+const executeBtn = document.getElementById('executeBtn');
+
+executeBtn.addEventListener('mouseenter', () => {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  playBeep(1200, 0.05);
+});
+
+executeBtn.addEventListener('click', () => {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  playBeep(800, 0.2);
+  setTimeout(() => playBeep(400, 0.4), 200);
+  executeIntro.classList.add('hidden');
+  setTimeout(startTerminalSequence, 500);
+});
+
+
+/* =========================
+   TERMINAL
+========================= */
+
+const lines = [
+
+  "> Scanning system...",
+  "> Access denied: Firewall active",
+  "> Bypassing encryption layer 3...",
+  "> WARNING: Trace detected",
+  "> Initiating bypass"
+
+];
+
+let i = 0;
+let typeInterval = null;
+
+function startTerminalSequence() {
+  if (typeInterval) return;
+  typeInterval = setInterval(() => {
+
+    if (
+      audioCtx.state ===
+      'suspended'
+    ) {
+
+      audioCtx.resume();
+    }
+
+    if (i < lines.length) {
+
+      terminal.innerHTML +=
+        `<p>
+          ${lines[i]}
+          <span class="cursor"></span>
+        </p>`;
+
+      playBeep(
+        900,
+        0.05
+      );
+
+      i++;
+
+    } else {
+
+      clearInterval(
+        typeInterval
+      );
+      typeInterval = null;
+
+      setTimeout(
+        switchToError,
+        1000
+      );
+    }
+
+  }, 1200);
+}
+
+
+/* =========================
+   ERROR SYSTEM
+========================= */
+
+function switchToError() {
+
+  mainScreen.style.opacity =
+    '0';
+
+  startAlarm();
+
+  setTimeout(() => {
+
+    mainScreen.style.display =
+      'none';
+
+    errorScreen.classList.add(
+      'active'
+    );
+
+    startErrorSpam();
+
+  }, 600);
+}
+
+let errorSpeed = 180;
+
+let errorSize = 3;
+
+let errorCount = 0;
+
+let ipTriggered = false;
+
+
+function createErrorText(
+  text,
+  size,
+  x,
+  y
+) {
+
+  const el =
+    document.createElement(
+      'div'
+    );
+
+  el.className =
+    'error-text';
+
+  el.style.left =
+    x + 'px';
+
+  el.style.top =
+    y + 'px';
+
+  el.style.fontSize =
+    size + 'vw';
+
+  el.style.transform =
+    `translate(-50%, -50%)
+     rotate(${Math.random() * 40 - 20}deg)`;
+
+  el.innerText =
+    text;
+
+  errorScreen.appendChild(
+    el
+  );
+
+  return el;
+}
+
+
+function startErrorSpam() {
+
+  const spawner =
+    setInterval(() => {
+
+      if (ipTriggered) {
+
+        clearInterval(
+          spawner
+        );
+
+        return;
+      }
+
+      for (
+        let j = 0;
+        j < 3;
+        j++
+      ) {
+
+        const x =
+          Math.random() *
+          window.innerWidth;
+
+        const y =
+          Math.random() *
+          window.innerHeight;
+
+        createErrorText(
+          "ERROR 404",
+          errorSize,
+          x,
+          y
+        );
+
+        errorCount++;
+
+        playBeep(
+          1200 +
+          Math.random() * 200,
+          0.03
+        );
+      }
+
+      errorSize += 0.4;
+
+      if (
+        errorSpeed > 60
+      ) {
+
+        errorSpeed -= 10;
+      }
+
+      document.body.style.transform =
+        `translate(
+          ${Math.random() * 8 - 4}px,
+          ${Math.random() * 8 - 4}px
+        )`;
+
+      setTimeout(() => {
+
+        document.body.style.transform =
+          'translate(0,0)';
+
+      }, 50);
+
+
+      if (
+        errorCount >= 200 &&
+        !ipTriggered
+      ) {
+
+        ipTriggered = true;
+
+        fadeOutAndShowAddress();
+      }
+
+    }, errorSpeed);
+}
+
+
+/* =========================
+   BLOCKED ADDRESS
+========================= */
+
+function fadeOutAndShowAddress() {
+
+  soundEnabled = false;
+
+  stopAllAlarm();
+
+  const allErrors =
+    document.querySelectorAll(
+      '.error-text'
+    );
+
+  allErrors.forEach(el => {
+
+    el.style.transition =
+      'opacity .7s ease';
+
+    el.style.opacity =
+      '0';
+
+  });
+
+
+  setTimeout(() => {
+
+    errorScreen.innerHTML =
+      '';
+
+    errorScreen.classList.remove(
+      'active'
+    );
+
+    const text =
+      "Your Address Has Been Blocked";
+
+    ipBlocked.classList.add(
+      'show'
+    );
+
+    soundEnabled = true;
+
+    let k = 0;
+
+    const typing =
+      setInterval(() => {
+
+        if (k < text.length) {
+
+          ipBlocked.innerText =
+            text.substring(
+              0,
+              k + 1
+            ) + "_";
+
+          playBeep(
+            600,
+            0.07
+          );
+
+          k++;
+
+        } else {
+
+          clearInterval(
+            typing
+          );
+
+          ipBlocked.innerText =
+            text;
+
+          playBeep(
+            400,
+            0.4
+          );
+
+          setTimeout(
+            showFinalScreen,
+            1500
+          );
+        }
+
+      }, 120);
+
+  }, 800);
+}
+
+
+/* =========================
+   FINAL MENU
+========================= */
+
+function showFinalScreen() {
+
+  ipBlocked.style.opacity =
+    '0';
+
+  setTimeout(() => {
+
+    ipBlocked.style.display =
+      'none';
+
+    finalScreen.classList.add(
+      'show'
+    );
+
+  }, 700);
+}
+
+
+/* =========================
+   IDIOT MODE
+========================= */
+
+function activateIdiotMode() {
+
+  soundEnabled = false;
+
+  stopAllAlarm();
+
+  finalScreen.classList.remove(
+    'show'
+  );
+
+  document.body.classList.add(
+    'white-mode'
+  );
+
+  errorScreen.classList.add(
+    'active'
+  );
+
+  startIdiotAlarm();
+
+  startIdiotSpam();
+}
+
+
+let idiotCount = 0;
+
+let idiotSize = 3;
+
+let idiotSpeed = 180;
+
+
+function startIdiotSpam() {
+
+  const idiotSpawner =
+    setInterval(() => {
+
+      for (
+        let j = 0;
+        j < 3;
+        j++
+      ) {
+
+        const x =
+          Math.random() *
+          window.innerWidth;
+
+        const y =
+          Math.random() *
+          window.innerHeight;
+
+        createErrorText(
+          "YOU ARE AN IDIOT",
+          idiotSize,
+          x,
+          y
+        );
+
+        idiotCount++;
+
+        playBeep(
+          1400 +
+          Math.random() * 200,
+          0.03
+        );
+      }
+
+      idiotSize += 0.4;
+
+      if (
+        idiotSpeed > 60
+      ) {
+
+        idiotSpeed -= 10;
+      }
+
+      document.body.style.transform =
+        `translate(
+          ${Math.random() * 12 - 6}px,
+          ${Math.random() * 12 - 6}px
+        )`;
+
+
+      if (
+        idiotCount >= 100
+      ) {
+
+        clearInterval(
+          idiotSpawner
+        );
+
+        stopAllAlarm();
+
+        activateRedScreen();
+      }
+
+    }, idiotSpeed);
+}
+
+
+/* =========================
+   RED FINAL SCREEN
+========================= */
+
+function activateRedScreen() {
+
+  soundEnabled = false;
+
+  document.body.classList.remove(
+    'white-mode'
+  );
+
+  document.body.classList.add(
+    'red-mode'
+  );
+
+  errorScreen.innerHTML =
+    '';
+
+
+  /* YOU ARE AN IDIOT */
+
+  const finalText =
+    document.createElement(
+      'div'
+    );
+
+  finalText.className =
+    'error-text';
+
+  finalText.style.left =
+    '50%';
+
+  finalText.style.top =
+    '50%';
+
+  finalText.style.fontSize =
+    'clamp(42px, 12vw, 120px)';
+
+  finalText.style.transform =
+    'translate(-50%, -50%)';
+
+  finalText.innerText =
+    'YOU ARE AN IDIOT';
+
+  errorScreen.appendChild(
+    finalText
+  );
+
+
+  /* SCREEN SHAKE */
+
+  const shake =
+    setInterval(() => {
+
+      document.body.style.transform =
+        `translate(
+          ${Math.random() * 18 - 9}px,
+          ${Math.random() * 18 - 9}px
+        )`;
+
+    }, 40);
+
+
+  /* =========================
+     WAIT 4 SECONDS
+     THEN SHOW IMAGE
+  ========================= */
+
+  setTimeout(() => {
+
+    /* Stop shaking */
+    clearInterval(shake);
+
+    document.body.style.transform =
+      'translate(0,0)';
+
+
+    /* Fade text */
+
+    finalText.style.transition =
+      'opacity .45s ease';
+
+    finalText.style.opacity =
+      '0';
+
+
+    /* Create image */
+
+    const image =
+      document.createElement(
+        'img'
+      );
+
+    image.src =
+      'assets/gambar.jpg';
+
+    image.className =
+      'final-image';
+
+    image.alt =
+      'Final Image';
+
+
+    /* Add image */
+
+    errorScreen.appendChild(
+      image
+    );
+
+
+    /* Animate image */
+
+    setTimeout(() => {
+
+      image.classList.add(
+        'show'
+      );
+
+    }, 50);
+
+
+  }, 4000);
+}
+</script>
+
+</body>
+</html>
